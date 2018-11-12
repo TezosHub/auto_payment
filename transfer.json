@@ -1,0 +1,17 @@
+[
+	{
+		"name":"userA",
+		"address":"tz1fBAUZoBEAJGaAcDeaQ7uXPtTPaMruhw17",
+		"amount":"1"
+	},
+	{
+		"name":"userB",
+		"address":"tz1SkohgSByWXEQ2Dqs7N15pyrd1F4UQNGqj",
+		"amount":"2"
+	},
+	{
+		"name":"userC",
+		"address":"tz1cYVZPmuTsqKPtjEZa4NmFE2yibsMQx6QF",
+		"amount":"3"
+	}
+]

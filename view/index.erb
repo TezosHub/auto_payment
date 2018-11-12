@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <title><%=@title%></title>
+    <style>
+        table, th, td{
+            border-collapse: collapse;
+
+            font-size: 14px;
+
+            border: solid 2px #ccc;
+
+            padding: 10px;
+
+            font-weight: lighter;
+        }
+    </style>
+</head>
+<body>
+<h2>安全支付 调试控制台</h2>
+
+<p>注意：以下表单应由后台系统根据委托收益算法生成，目前调试没有使用任何算法。</p>
+<table >
+    <tr>
+        <th>委托账户</th>
+        <th>收款地址</th>
+        <th>应付金额</th>
+    </tr>
+    <%for item in @items%>
+    <tr>
+        <th><%=item[:name]%></th>
+        <th><%=item[:address]%></th>
+        <th><%=item[:amount]%></th>
+    </tr>
+    <%end%>
+</table>
+    <p>
+        <button>生成应付配置文件</button>
+        <button onclick="edit()">编辑应付配置文件</button>
+        <button onclick="download_baking_user()">下载烘培师配置文件</button>
+        <button onclick="download_transfer()">下载应付配置文件</button>
+    </p>
+</body>
+<script>
+    function download_baking_user(){
+        window.open("/download/transfer");
+    }
+    function download_transfer(){
+        window.open("/download/bakingUser");
+    }
+    function edit(){
+        window.open("/edit/transfer");
+    }
+</script>
+</html>
