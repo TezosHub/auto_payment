@@ -16,43 +16,76 @@
             padding: 10px;
 
             font-weight: lighter;
+
+            
+        }
+        table{
+            width:90%;
+            min-width:500px;
+            text-align:left;
+        }
+        .first{
+            width:20%;
+            min-width:100px;
         }
     </style>
 </head>
 <body>
 <h2>安全支付 调试控制台</h2>
 
-<p>注意：以下表单应由后台系统根据委托收益算法生成，目前调试没有使用任何算法。</p>
+<p>警告：本功能仅用来调试签名转账，提供非ssh登陆调试，并非后台调用转账的接口。</p>
+<p>注意：以下表单应由后台系统根据委托收益算法生成，目前后台没有提供API，本表单全靠手工编辑。</p>
 <table >
     <tr>
-        <th>委托账户</th>
+        <th class="first">烘培师账户</th>
+        <th>烘培师付款地址</th>
+    </tr>
+    <tr>
+        <th class="first"><%=@bakingUser[:name]%></th>
+        <th><%=@bakingUser[:address]%></th>
+    </tr>
+</table>
+<p>
+    <button onclick="edit_baking_user()">编辑烘焙师配置文件</button>
+    <button onclick="download_baking_user()">下载烘培师配置文件</button>
+</p>
+<table >
+    <tr>
+        <th class="first">委托账户</th>
         <th>收款地址</th>
         <th>应付金额</th>
     </tr>
     <%for item in @items%>
     <tr>
-        <th><%=item[:name]%></th>
+        <th class="first"><%=item[:name]%></th>
         <th><%=item[:address]%></th>
         <th><%=item[:amount]%></th>
     </tr>
     <%end%>
 </table>
     <p>
-        <button>生成应付配置文件</button>
-        <button onclick="edit()">编辑应付配置文件</button>
-        <button onclick="download_baking_user()">下载烘培师配置文件</button>
+        <button onclick="edit_transfer()">编辑应付委托用户配置文件</button>
         <button onclick="download_transfer()">下载应付配置文件</button>
+    </p>
+    <p>
+       <button onclick="payment()">批量支付</button> 
     </p>
 </body>
 <script>
     function download_baking_user(){
-        window.open("/download/transfer");
-    }
-    function download_transfer(){
         window.open("/download/bakingUser");
     }
-    function edit(){
-        window.open("/edit/transfer");
+    function download_transfer(){
+        window.open("/download/transfer");
+    }
+    function edit_transfer(){
+        window.location.href="/edit/transfer";
+    }
+    function edit_baking_user(){
+        window.location.href="/edit/bakingUser";
+    }
+    function payment(){
+        window.open("/payment");
     }
 </script>
 </html>

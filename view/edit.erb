@@ -5,6 +5,13 @@
     <meta name="viewport"
           content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <title><%=@title%></title>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/codemirror-5.41.0/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="/codemirror-5.41.0/lib/codemirror.css">
+    <script src="/codemirror-5.41.0/mode/javascript/javascript.js"></script>
+    <link rel="stylesheet" href="/codemirror-5.41.0/addon/lint/lint.css">
+    <script src="/codemirror-5.41.0/addon/lint/lint.js"></script>
+    <script src="/codemirror-5.41.0/addon/lint/json-lint.js"></script>
     <style>
         table, th, td{
             border-collapse: collapse;
@@ -23,36 +30,25 @@
 <h2>安全支付 调试控制台</h2>
 
 <p>注意：以下表单应由后台系统根据委托收益算法生成，目前调试没有使用任何算法。</p>
-<table >
-    <tr>
-        <th>委托账户</th>
-        <th>收款地址</th>
-        <th>应付金额</th>
-    </tr>
-    <%for item in @items%>
-    <tr>
-        <th><%=item[:name]%></th>
-        <th><%=item[:address]%></th>
-        <th><%=item[:amount]%></th>
-    </tr>
-    <%end%>
-</table>
-    <p>
-        <button>生成应付配置文件</button>
-        <button onclick="edit()">编辑应付配置文件</button>
-        <button onclick="download_baking_user()">下载烘培师配置文件</button>
-        <button onclick="download_transfer()">下载应付配置文件</button>
-    </p>
+<form method="post">
+    <div class="form-group">
+        <label for="text">内容</label>
+        <textarea id="text" name="text" style="display:block;"></textarea>
+    </div>
+    <input type="submit" class="btn btn-default" value="保存">
+    <input type="button" onclick="window.location.href='/'" class="btn btn-default" value="取消">
+</form>
 </body>
 <script>
-    function download_baking_user(){
-        window.open("/download/transfer");
-    }
-    function download_transfer(){
-        window.open("/download/bakingUser");
-    }
-    function edit(){
-        window.open("/edit/transfer");
-    }
+    var json = <%=@item%>;
+    $('#text').html(JSON.stringify(json,null,4));
+    CodeMirror.fromTextArea(document.getElementById("text"), {
+        value:<%=@item%>,
+        lineNumbers: true,
+        mode: "application/json",
+        indentUnit : 2,  // 缩进单位，默认2
+        smartIndent : true,  // 是否智能缩进，
+        lint: true,
+    });
 </script>
 </html>
