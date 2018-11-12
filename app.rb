@@ -48,6 +48,19 @@ get '/' do
 end
 
 
+get '/reset' do
+    text = File.read("transfer.json")
+    File.open(config[:transferFile],"w+") do |file|
+        file.puts text
+    end
+
+    text = File.read("bakingUser.json")
+    File.open(config[:bakingUserFile],"w+") do |file|
+        file.puts text
+    end
+    redirect "/"
+end
+
 get '/edit/transfer' do
     @title = "tezos 批量打款"
     users = File.read(config[:transferFile])
