@@ -1,0 +1,10 @@
+[ 
+    { "name": "alice",
+      "value":
+        {
+      "locator":"unencrypted:edpkvJgayg1PDSC8PQhYHR2vC2QXfKkRrQe8BboAN9nU8ssNdARzWe",
+          "key": "edpkvJgayg1PDSC8PQhYHR2vC2QXfKkRrQe8BboAN9nU8ssNdARzWe"
+        } 
+    }
+]
+  

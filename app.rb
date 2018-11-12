@@ -25,6 +25,23 @@ get '/' do
         end
     end
 
+    if !File::exists?config[:publicKeysFile]
+        # 文件不存在
+        text = []
+        text << {
+            :name => "alice",
+            :value => {
+              :locator => "unencrypted:edpkvJgayg1PDSC8PQhYHR2vC2QXfKkRrQe8BboAN9nU8ssNdARzWe",
+              :key => "edpkvJgayg1PDSC8PQhYHR2vC2QXfKkRrQe8BboAN9nU8ssNdARzWe"
+            } 
+          }
+        text_json = JSON text
+        File.open(config[:publicKeysFile],"w+") do |file|
+            file.puts text_json
+        end
+    end
+
+
     users = File.read(config[:bakingUserFile])
     usersJson = JSON.parse(users)
     @bakingUser = {
