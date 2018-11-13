@@ -21,11 +21,11 @@
         }
         table{
             width:90%;
-            min-width:500px;
+            max-width:800px;
             text-align:left;
         }
         .first{
-            width:20%;
+            width:10%;
             min-width:100px;
         }
     </style>
@@ -35,37 +35,83 @@
 
 <p>警告：本功能仅用来调试签名转账，提供非ssh登陆调试，并非后台调用转账的接口。</p>
 <p>注意：以下表单应由后台系统根据委托收益算法生成，目前后台没有提供API，本表单全靠手工编辑。</p>
+
+<h2>烘焙师账户 配置表</h2>
 <table >
     <tr>
-        <th class="first">烘培师账户</th>
-        <th>烘培师付款地址</th>
+        <th class="first">烘焙师账户</th>
+        <th><%=@bakingUser["name"]%></th>
     </tr>
     <tr>
-        <th class="first"><%=@bakingUser[:name]%></th>
-        <th><%=@bakingUser[:address]%></th>
+        <th class="first">烘焙师付款地址</th>
+        <th><%=@bakingUser["address"]%></th>
+    </tr>
+    <tr>
+        <th class="first">烘焙师公钥</th>
+        <th><%=@bakingUser["public"]%></th>
+    </tr>
+    <tr>
+        <th class="first">烘焙师私钥</th>
+        <th><%=@bakingUser["private"]%></th>
     </tr>
 </table>
 <p>
     <button onclick="edit_baking_user()">编辑烘焙师配置文件</button>
     <button onclick="download_baking_user()">下载烘培师配置文件</button>
 </p>
+
+<h2>批量打款 列表</h2>
+
 <table >
     <tr>
         <th class="first">委托账户</th>
         <th>收款地址</th>
         <th>应付金额</th>
+        <th>手续费</th>
     </tr>
     <%for item in @items%>
     <tr>
-        <th class="first"><%=item[:name]%></th>
-        <th><%=item[:address]%></th>
-        <th><%=item[:amount]%></th>
+        <th class="first"><%=item["name"]%></th>
+        <th><%=item["address"]%></th>
+        <th><%=item["amount"]%></th>
+        <th><%=item["fee"]%></th>
     </tr>
     <%end%>
 </table>
+
+<p>
+    <button onclick="edit_transfer()">编辑应付委托用户配置文件</button>
+    <button onclick="download_transfer()">下载应付配置文件</button>
+</p>
+
+<h2>账户/地址 列表（自动生成，不用编辑）</h2>
+<table >
+    <tr>
+        <th class="first">账户</th>
+        <th>钱包地址</th>
+    </tr>
+    <%for item in @addresses%>
+    <tr>
+        <th class="first"><%=item["name"]%></th>
+        <th><%=item["value"]%></th>
+    </tr>
+    <%end%>
+</table>
+<p>
+    <button onclick="edit_public_key_hashs()">编辑地址配置配置文件</button>
+    <button onclick="download_public_key_hashs()">下载地址配置文件</button>
+</p>
+
+<h2>手动打款</h2>
+<form method="post" action="/payment">
+    <input name="name" value="" placeholder="姓名（可随意填写）">
+    <input name="address" value="收款地址">
+    <input name="amount" value="打款金额">
+    <input name="fee" value="手续费">
+    <input type="submit" value="支付">
+</form>
     <p>
-        <button onclick="edit_transfer()">编辑应付委托用户配置文件</button>
-        <button onclick="download_transfer()">下载应付配置文件</button>
+       <button onclick="payment()">批量支付</button> 
     </p>
     <p>
        <button onclick="payment()">批量支付</button> 
@@ -78,11 +124,17 @@
     function download_transfer(){
         window.open("/download/transfer");
     }
+    function download_public_key_hashs(){
+        window.open("/download/public_key_hashs");
+    }
     function edit_transfer(){
         window.location.href="/edit/transfer";
     }
     function edit_baking_user(){
         window.location.href="/edit/bakingUser";
+    }
+    function edit_public_key_hashs(){
+        window.location.href="/edit/public_key_hashs";
     }
     function payment(){
         window.open("/payment");
